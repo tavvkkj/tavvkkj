@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/count",
+      "destination": "https://api.counterapi.dev/v1/tavvkkj-card-v1/visits/up"
+    }
+  ]
+}
