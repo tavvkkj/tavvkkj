@@ -270,7 +270,7 @@
     <div class="container">
         <div class="card">
             <div class="pfp-container">
-                <img src="pfp.jpg" alt="Profile" class="pfp">
+                <img src="pfp.png" alt="Profile" class="pfp">
                 <div class="status-dot"></div>
             </div>
 
@@ -376,17 +376,18 @@
         });
 
         const visitCountElement = document.getElementById('visitCount');
-        const namespace = 'tavvkkj-card-v1';
-        const key = 'visits';
 
-        fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`)
-            .then(response => response.json())
+        fetch('/api/count')
+            .then(response => {
+                if (!response.ok) throw new Error("Blocked/Error");
+                return response.json();
+            })
             .then(data => {
                 visitCountElement.innerText = data.count + " visualizações";
             })
             .catch(error => {
-                console.error("Erro no contador:", error);
-                visitCountElement.innerText = "0 visualizações";
+                console.warn("Contador bloqueado ou erro de rede.");
+                visitCountElement.innerText = "N/A";
             });
 
         document.addEventListener('contextmenu', event => event.preventDefault());
