@@ -168,6 +168,33 @@
             transform: translateX(-50%) translateY(0) scale(1);
             transition-delay: 0.2s;
         }
+
+        .visit-stats {
+            margin-top: 25px;
+            font-size: 0.75rem;
+            color: #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            opacity: 0;
+            animation: elementFadeUp 0.8s ease 1.1s forwards;
+            font-family: monospace;
+            letter-spacing: 1px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 20px;
+            width: 100%;
+        }
+
+        .visit-stats i {
+            color: var(--accent-color);
+            font-size: 0.85rem;
+            text-shadow: 0 0 5px var(--accent-glow);
+        }
+
+        .visit-stats span {
+            color: #888;
+        }
         
         .site-watermark { 
             position: fixed; bottom: 15px; right: 20px; font-size: 0.75rem; color: #555; font-family: Arial, sans-serif; z-index: 20; cursor: pointer; transition: 0.3s;
@@ -280,6 +307,11 @@
                     </a>
                 </div>
             </div>
+
+            <div class="visit-stats">
+                <i class="fa-solid fa-eye"></i>
+                <span id="visitCount">...</span>
+            </div>
         </div>
     </div>
 
@@ -342,6 +374,20 @@
                 popupOverlay.classList.remove('active');
             }
         });
+
+        const visitCountElement = document.getElementById('visitCount');
+        const namespace = 'tavvkkj-card-v1';
+        const key = 'visits';
+
+        fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`)
+            .then(response => response.json())
+            .then(data => {
+                visitCountElement.innerText = data.count + " visualizações";
+            })
+            .catch(error => {
+                console.error("Erro no contador:", error);
+                visitCountElement.innerText = "0 visualizações";
+            });
 
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.addEventListener('keydown', (e) => {
